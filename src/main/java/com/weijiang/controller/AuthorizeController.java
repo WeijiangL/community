@@ -1,7 +1,9 @@
 package com.weijiang.controller;
 
+import com.weijiang.mapper.UserMapper;
 import com.weijiang.entity.AccessToken;
 import com.weijiang.entity.GitHubUser;
+import com.weijiang.model.User;
 import com.weijiang.provider.GithubProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,12 +12,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.UUID;
 
 @Controller
 public class AuthorizeController {
 
     @Autowired
     private GithubProvider githubProvider;
+
+    @Autowired
+    private UserMapper mapper;
 
     @Value("${github.client.secret}")
     private String secret;
@@ -35,9 +41,16 @@ public class AuthorizeController {
         accessToken.setState(state);
         accessToken.setRedirect_uri(uri);
         String accessToken1 = githubProvider.getAccessToken(accessToken);
-        GitHubUser user = githubProvider.getUser(accessToken1);
-        if(user != null){
-            request.getSession().setAttribute("user" , user);
+        GitHubUser githubuser = githubProvider.getUser(accessToken1);
+        if(githubuser != null){
+            User user = new User();
+            user.setAccountId(String.valueOf(githubuser.getId()));
+            user.setGmtCreate(System.currentTimeMillis());
+            user.setGmtModified(user.getGmtCreate());
+            user.setToken(UUID.randomUUID().toString());
+            user.setName(githubuser.getName());
+            mapper.insert(user);
+            request.getSession().setAttribute("user" , githubuser);
             return "redirect:/";
         }
             return "redirect:/";
