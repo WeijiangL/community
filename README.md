@@ -9,4 +9,9 @@
 ##工具
 [Visual Paradiqm](https://www.visual-paradigm.com)
 
+##遇到的问题
+数据库有字符插入不进去：改变字符集，重启数据库；
+
+
+
 

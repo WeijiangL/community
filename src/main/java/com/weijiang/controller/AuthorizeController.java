@@ -1,8 +1,8 @@
 package com.weijiang.controller;
 
-import com.weijiang.mapper.UserMapper;
 import com.weijiang.entity.AccessToken;
 import com.weijiang.entity.GitHubUser;
+import com.weijiang.mapper.UserMapper;
 import com.weijiang.model.User;
 import com.weijiang.provider.GithubProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 @Controller
@@ -33,7 +34,7 @@ public class AuthorizeController {
     //再访问user接口拿到用户信息
 
     @GetMapping("/callback")
-    public String control(@RequestParam(name = "code") String code , @RequestParam(name = "state") String state , HttpServletRequest request){
+    public String control(@RequestParam(name = "code") String code , @RequestParam(name = "state") String state , HttpServletResponse response){
         AccessToken accessToken = new AccessToken();
         accessToken.setClient_id(id);
         accessToken.setClient_secret(secret);
@@ -44,13 +45,17 @@ public class AuthorizeController {
         GitHubUser githubuser = githubProvider.getUser(accessToken1);
         if(githubuser != null){
             User user = new User();
+            String token = UUID.randomUUID().toString();
             user.setAccountId(String.valueOf(githubuser.getId()));
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
-            user.setToken(UUID.randomUUID().toString());
+            user.setToken(token);
             user.setName(githubuser.getName());
             mapper.insert(user);
-            request.getSession().setAttribute("user" , githubuser);
+            //获取cookie
+            Cookie cookie = new Cookie("token" , token);
+            response.addCookie(cookie);
+            //request.getSession().setAttribute("user" , githubuser);
             return "redirect:/";
         }
             return "redirect:/";
