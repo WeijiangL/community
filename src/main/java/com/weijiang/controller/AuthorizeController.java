@@ -15,6 +15,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
+//用户登录
 @Controller
 public class AuthorizeController {
 
@@ -51,6 +52,7 @@ public class AuthorizeController {
             user.setGmtModified(user.getGmtCreate());
             user.setToken(token);
             user.setName(githubuser.getName());
+            user.setAvartaUrl(githubuser.getAvatar_url());
             mapper.insert(user);
             //获取cookie
             Cookie cookie = new Cookie("token" , token);

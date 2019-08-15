@@ -1,0 +1,32 @@
+.button_publish{
+    float: right;
+    margin-bottom: 20px;
+}
+.main{
+    margin: 30px;
+    background: white;
+}
+.question_decription{
+    margin-left: 1380px;
+}
+.bground{
+    background: lightgray;
+}
+.messege{
+    background: lightskyblue;
+}
+.media-object{
+    width: 65px;
+    height: 65px;
+}
+.text-desc{
+    font-size: 12px;
+    font-weight: normal;
+    color: #999;
+}
+.profile.section{
+    margin-top: 15px;
+}
+.font{
+    font-weight: bold;
+}
