@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>发布-微酱的家</title>
+    <meta http-equiv="Ceontent-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="/css/weijiang.css"/>
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+</head>
+<body class="bground">
+    <div th:insert="~{navigation.html :: nav}"></div>
+<!--流式布局-->
+<div class="container-fluid main ">
+    <div class="row ">
+            <div class="jumbotron">
+                <h1>出错啦</h1>
+                <p th:text="${messages}">服务器繁忙请稍后再试</p>
+                <p><a class="btn btn-primary btn-lg" href="/" role="button">回到主页</a></p>
+            </div>
+    </div>
+</div>
+</body>
+</html>

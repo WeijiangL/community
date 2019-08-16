@@ -3,9 +3,9 @@
 <head>
     <title>发布-微酱的家</title>
     <meta http-equiv="Ceontent-Type" content="text/html; charset=UTF-8"/>
-    <link rel="stylesheet" href="css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="css/bootstrap-theme.min.css"/>
-    <link rel="stylesheet" href="css/weijiang.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="/css/weijiang.css"/>
     <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
@@ -19,6 +19,7 @@
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 ">
             <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发起</h2>
             <form action="/publish" method="post">
+                <input type="hidden" name="id" th:value="${id}">
                 <div class="form-group">
                     <label for="title">问题标题（简单扼要）</label>
                     <input type="text" th:value="${title}" class="form-control" id="title" name="title"
@@ -27,7 +28,7 @@
                 <div class="form-group">
                     <label for="title">问题补充（必填，请参照右侧提示）</label>
                     <textarea name="description" class="form-control" id="description" cols="30" rows="20"
-                              th:value="${description}"></textarea>
+                              th:text="${description}"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="title">添加标签：</label>

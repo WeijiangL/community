@@ -19,11 +19,11 @@
             <div class="media" th:each="question : ${pagination.questions}">
                 <div class="media-left">
                     <a href="#">
-                        <img class="media-object img-circle "  th:src="${question.user.avartaUrl}" >
+                        <img class="media-object img-circle " th:if="${session.user != null}"  th:src="${question.user.avartaUrl}" >
                     </a>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading" th:text="${question.title}"></h4>
+                    <h4 class="media-heading" ><a th:href="@{'/questions/'+${question.id}}" th:text="${question.title}"></a></h4>
                     <span th:text="${question.description}"/><br>
                     <span class="text-desc"><span th:text="${question.comment_count}"/>个回复 · <span th:text="${question.view_count}"/>次浏览 · <span th:text="${#dates.format(question.gmt_create,'yyyy-MM-dd HH:mm')}"/></span>
                 </div>
