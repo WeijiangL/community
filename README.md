@@ -20,6 +20,9 @@
 数据库有字符插入不进去：改变字符集，重启数据库；
 驼峰标志的配置不能识别：在配置文件中添加指定配置；
 
+##脚本
+mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
+
 
 
 

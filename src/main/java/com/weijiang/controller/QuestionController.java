@@ -18,6 +18,9 @@ public class QuestionController {
     @GetMapping("/questions/{id}")
     public String Question(@PathVariable(name = "id") Long id , Model model){
         QuestionDTo questionDTo = questionService.getById(id);
+        //累加阅读数
+        questionService.incViewCount(id);
+
         model.addAttribute("question" , questionDTo);
         return "question";
     }

@@ -1,6 +1,8 @@
 package com.weijiang.advice;
 
-import org.springframework.http.HttpStatus;
+import com.weijiang.entity.ResultDTO;
+import com.weijiang.exception.CustomErrorCode;
+import com.weijiang.exception.CustomException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,18 +14,21 @@ import javax.servlet.http.HttpServletRequest;
 public class CustomExceptionHandler {
 
     @ExceptionHandler(Exception.class)
-    ModelAndView handleControllerException(HttpServletRequest request, Throwable ex, Model model) {
-        HttpStatus status = getStatus(request);
-        model.addAttribute("messages","服务器繁忙请稍后再试");
-        return new ModelAndView("error");
-    }
-
-    private HttpStatus getStatus(HttpServletRequest request) {
-        Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
-        if (statusCode == null) {
-            return HttpStatus.INTERNAL_SERVER_ERROR;
+    Object handleControllerException(Throwable ex, Model model, HttpServletRequest request) {
+        String contentType = request.getContentType();
+        if ("application/json".equals(contentType)) {
+            if (ex instanceof CustomException) {
+                return ResultDTO.errorOf((CustomException) ex);
+            } else {
+                return ResultDTO.errorOf(CustomErrorCode.SYS_ERROR);
+            }
+        } else {
+            if (ex instanceof CustomException) {
+                model.addAttribute("messages", ex.getMessage());
+            } else {
+                model.addAttribute("messages", "服务器繁忙请稍后再试");
+            }
+            return new ModelAndView("error");
         }
-        return HttpStatus.valueOf(statusCode);
     }
-
-    }
+}

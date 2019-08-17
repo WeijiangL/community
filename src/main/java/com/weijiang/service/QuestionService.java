@@ -4,6 +4,7 @@ import com.weijiang.entity.Pagination;
 import com.weijiang.entity.QuestionDTo;
 import com.weijiang.exception.CustomErrorCode;
 import com.weijiang.exception.CustomException;
+import com.weijiang.mapper.QuestionExtMapper;
 import com.weijiang.mapper.QuestionMapper;
 import com.weijiang.mapper.UserMapper;
 import com.weijiang.model.Question;
@@ -26,6 +27,8 @@ public class QuestionService {
     @Autowired
     private QuestionMapper questionMapper;
 
+    @Autowired
+    private QuestionExtMapper questionExtMapper;
 
     public Pagination list(Integer page, Integer size) {
         Pagination pagination = new Pagination();
@@ -134,5 +137,12 @@ public class QuestionService {
                 throw new CustomException(CustomErrorCode.QUESTION_NOT_FOUND);
             }
         }
+    }
+
+    public void incViewCount(Long id) {
+        Question question = new Question();
+        question.setId(id);
+        question.setViewCount(1);
+        questionExtMapper.incView(question);
     }
 }
